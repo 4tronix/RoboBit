@@ -2,7 +2,7 @@
 /**
   * Enumeration of motors.
   */
-enum BBMotor {
+enum RBMotor {
     //% block="left"
     Left,
     //% block="right"
@@ -14,7 +14,7 @@ enum BBMotor {
 /**
   * Enumeration of directions.
   */
-enum BBRobotDirection {
+enum RBRobotDirection {
     //% block="left"
     Left,
     //% block="right"
@@ -24,17 +24,7 @@ enum BBRobotDirection {
 /**
   * Enumeration of line sensors.
   */
-enum BBLineSensor {
-    //% block="left"
-    Left,
-    //% block="right"
-    Right
-}
-
-/**
-  * Enumeration of light sensors.
-  */
-enum BBLightSensor {
+enum RBLineSensor {
     //% block="left"
     Left,
     //% block="right"
@@ -44,7 +34,7 @@ enum BBLightSensor {
 /**
  * Ping unit for sensor
  */
-enum BBPingUnit {
+enum RBPingUnit {
     //% block="μs"
     MicroSeconds,
     //% block="cm"
@@ -56,7 +46,7 @@ enum BBPingUnit {
 /**
  * Custom blocks
  */
-//% weight=10 color=#0fbc11 icon="\uf1b9"
+//% weight=10 color=#0fbc11 icon="\uf1ba"
 namespace robobit {
 
     /**
@@ -68,7 +58,7 @@ namespace robobit {
     //% speed.min=-1023 speed.max=1023
     //% weight=110
     export function drive(speed: number): void {
-        motor(BBMotor.All, speed);
+        motor(RBMotor.All, speed);
     }
 
     /**
@@ -95,15 +85,15 @@ namespace robobit {
     //% blockId="robobit_turn" block="turn in direction %direction|speed %speed"
     //% speed.min=0 speed.max=1023
     //% weight=109
-    export function driveTurn(direction: BBRobotDirection, speed: number): void {
+    export function driveTurn(direction: RBRobotDirection, speed: number): void {
         if (speed < 0) speed = 0;
 
-        if (direction == BBRobotDirection.Left) {
-            motor(BBMotor.Left, -speed);
-            motor(BBMotor.Right, speed);
-        } else if (direction == BBRobotDirection.Right) {
-            motor(BBMotor.Left, speed);
-            motor(BBMotor.Right, -speed);
+        if (direction == RBRobotDirection.Left) {
+            motor(RBMotor.Left, -speed);
+            motor(RBMotor.Right, speed);
+        } else if (direction == RBRobotDirection.Right) {
+            motor(RBMotor.Left, speed);
+            motor(RBMotor.Right, -speed);
         }
     }
 
@@ -117,10 +107,10 @@ namespace robobit {
     //% blockId="robobit_turn_milliseconds" block="turn in direction %direction|speed %speed| for milliseconds %milliseconds"
     //% speed.min=0 speed.max=1023
     //% weight=130
-    export function driveTurnMilliseconds(direction: BBRobotDirection, speed: number, milliseconds: number): void {
+    export function driveTurnMilliseconds(direction: RBRobotDirection, speed: number, milliseconds: number): void {
         driveTurn(direction, speed)
         basic.pause(milliseconds)
-        motor(BBMotor.All, 0)
+        motor(RBMotor.All, 0)
     }
 
     /**
@@ -131,7 +121,7 @@ namespace robobit {
       */
     //% blockId="robobit_motor" block="drive motor %motor|speed %speed"
     //% weight=100
-    export function motor(motor: BBMotor, speed: number): void {
+    export function motor(motor: RBMotor, speed: number): void {
         let forward = (speed >= 0);
 
         if (speed > 1023) {
@@ -153,12 +143,12 @@ namespace robobit {
             realSpeed = 1023 + realSpeed; // realSpeed is negative!
         }
 
-        if ((motor == BBMotor.Left) || (motor == BBMotor.All)) {
+        if ((motor == RBMotor.Left) || (motor == RBMotor.All)) {
             pins.analogWritePin(AnalogPin.P0, realSpeed);
             pins.digitalWritePin(DigitalPin.P8, forward ? 0 : 1);
         }
 
-        if ((motor == BBMotor.Right) || (motor == BBMotor.All)) {
+        if ((motor == RBMotor.Right) || (motor == RBMotor.All)) {
             pins.analogWritePin(AnalogPin.P1, realSpeed);
             pins.digitalWritePin(DigitalPin.P12, forward ? 0 : 1);
         }
@@ -171,8 +161,8 @@ namespace robobit {
       */
     //% blockId="robobit_read_line" block="read line sensor %sensor"
     //% weight=90
-    export function readLine(sensor: BBLineSensor): number {
-        if (sensor == BBLineSensor.Left) {
+    export function readLine(sensor: RBLineSensor): number {
+        if (sensor == RBLineSensor.Left) {
             return pins.digitalReadPin(DigitalPin.P11);
         } else {
             return pins.digitalReadPin(DigitalPin.P5);
@@ -187,7 +177,7 @@ namespace robobit {
     */
     //% blockId="robobit_sonar" block="read sonar as %unit"
     //% weight=7
-    export function sonar(unit: BBPingUnit): number {
+    export function sonar(unit: RBPingUnit): number {
         // send pulse
         let trig = DigitalPin.P13;
         let echo = DigitalPin.P13;
@@ -205,8 +195,8 @@ namespace robobit {
         let d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58);
 
         switch (unit) {
-            case BBPingUnit.Centimeters: return d / 58;
-            case BBPingUnit.Inches: return d / 148;
+            case RBPingUnit.Centimeters: return d / 58;
+            case RBPingUnit.Inches: return d / 148;
             default: return d;
         }
     }
