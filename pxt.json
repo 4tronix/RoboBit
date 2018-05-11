@@ -1,7 +1,7 @@
 {
-    "name": "bitbot",
+    "name": "RoboBit Buggy",
     "version": "0.4.1",
-    "description": "A BitBot package for pxt-microbit",
+    "description": "Microsoft MakeCode package for 4tronix RoboBit Buggy",
     "license": "Apache",
     "dependencies": {
         "core": "*",
@@ -10,7 +10,7 @@
     "files": [
         "README.md",
         "main.ts",
-        "_locales/no/bitbot-strings.json"
+        "_locales/no/robobit-strings.json"
     ],
     "testFiles": [
         "tests.ts"

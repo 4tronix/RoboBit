@@ -1,0 +1,11 @@
+﻿{
+  "BBMotor.Left|block": "venstre",
+  "BBMotor.Right|block": "høyre",
+  "BBMotor.All|block": "alle",
+  "BBLineSensor.Left|block": "venstre",
+  "BBLineSensor.Right|block": "høyre",
+  "robobit.motor|block": "kjør motor %motor|hastighet %speed",
+  "robobit.readLine|block": "les linje-sensor %sensor",
+  "robobit.readLight|block": "les lys-sensor %sensor",
+  "robobit.sonar|block": "les sonar som %unit"
+}
