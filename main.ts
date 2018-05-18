@@ -47,7 +47,7 @@ enum RBPingUnit {
  * Custom blocks
  */
 /** //% weight=10 color=#0fbc11 icon="\uf1ba" */
-//% weight=10 color=#0e7660 icon="\uf1ba"
+//% weight=10 color=#e7660b icon="\uf1ba"
 namespace robobit {
 
     /**
