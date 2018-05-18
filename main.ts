@@ -211,7 +211,7 @@ namespace robobit {
     //% weight=90
     export function setClaw(degrees: number): void
     {
-        pins.servoWritePin(AnalogPin.P15, Math.clamp(0, 80, degrees))
+        pins.servoWritePin(AnalogPin.P13, Math.clamp(0, 80, degrees))
     }
 
 }
