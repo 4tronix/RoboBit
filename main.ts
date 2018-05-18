@@ -46,7 +46,8 @@ enum RBPingUnit {
 /**
  * Custom blocks
  */
-//% weight=10 color=#0fbc11 icon="\uf1ba"
+/** //% weight=10 color=#0fbc11 icon="\uf1ba" */
+//% weight=10 color=#0e7660 icon="\uf1ba"
 namespace robobit {
 
     /**
@@ -200,4 +201,17 @@ namespace robobit {
             default: return d;
         }
     }
+
+    /**
+      * Adjust opening of Claw attachment
+      *
+      * @param degrees Degrees to open Claw.
+      */
+    //% blockId="robobit_set_claw" block="Set claw %degrees"
+    //% weight=90
+    export function setClaw(degrees: number): void
+    {
+        pins.servoWritePin(AnalogPin.P15, Math.clamp(0, 90, degrees))
+    }
+
 }
