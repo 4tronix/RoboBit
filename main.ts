@@ -31,6 +31,21 @@ enum RBLineSensor {
     Right
 }
 
+
+/**
+  * Enumeration of Robobit Models and Options
+  */
+enum RBModel {
+    //% block="Mk1"
+    MK1,
+    //% block="Mk2"
+    MK2, 
+    //% block="Mk2/LedBar"
+    MK2L,
+    //% block="Mk3"
+    MK3
+}
+
 /**
  * Ping unit for sensor
  */
@@ -49,6 +64,9 @@ enum RBPingUnit {
 /** //% weight=10 color=#0fbc11 icon="\uf1ba" */
 //% weight=10 color=#e7660b icon="\uf1ba"
 namespace robobit {
+
+    let ledBar: neopixel.Strip;
+    let model: RBModel;
 
     /**
       * Drive robot forward (or backward) at speed.
@@ -212,6 +230,118 @@ namespace robobit {
     export function setClaw(degrees: number): void
     {
         pins.servoWritePin(AnalogPin.P13, Math.clamp(0, 80, degrees))
+    }
+
+    function neo(): neopixel.Strip
+    {
+        if (!ledBar)
+        {
+            ledBar = neopixel.create(DigitalPin.P13, 8, NeoPixelMode.RGB);
+            ledBar.setBrightness(40);
+        }
+        return ledBar;
+    }
+
+    /**
+      * Sets all pixels to a given colour
+      *
+      * @param rgb RGB colour of the pixel
+      */
+    //% blockId="cubebit_set_color" block="set all pixels to %rgb=neopixel_colors"
+    //% weight=80
+    export function setColor(rgb: number): void
+    {
+        neo().showColor(rgb);
+    }
+
+    /**
+     * Set a pixel to a given colour (using colour names).
+     *
+     * @param ID location of the pixel in the cube from 0
+     * @param rgb RGB color of the LED
+     */
+    //% blockId="robobit_set_pixel_color" block="set pixel color at %ID|to %rgb=neopixel_colors"
+    //% weight=80
+    export function setPixel(ID: number, rgb: number): void
+    {
+        neo().setPixelColor(ID, rgb);
+    }
+
+    /**
+     * Convert from RGB values to colour number
+     *
+     * @param red Red value of the LED 0:255
+     * @param green Green value of the LED 0:255
+     * @param blue Blue value of the LED 0:255
+     */
+    //% blockId="robobit_convertRGB" block="convert from red %red| green %green| blue %bblue"
+    //% weight=80
+    export function convertRGB(r: number, g: number, b: number): number
+    {
+        return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+    }
+
+    /**
+      * Show pixels
+      */
+    //% blockId="robobit_show" block="show Led Bar changes"
+    //% weight=76
+    export function neoShow(): void
+    {
+        neo().show();
+    }
+
+    /**
+      * Clear leds.
+      */
+    //% blockId="robobit_clear" block="clear all pixels"
+    //% weight=75
+    export function neoClear(): void
+    {
+        neo().clear();
+    }
+
+    /**
+      * Shows a rainbow pattern on all pixels
+      */
+    //% blockId="robobit_rainbow" block="set Led Bar rainbow"
+    //% weight=70
+    export function neoRainbow(): void
+    {
+        neo().showRainbow(1, 360);
+    }
+
+    /**
+     * Shift LEDs forward and clear with zeros.
+     */
+    //% blockId="robobit_shift" block="shift pixels"
+    //% weight=66
+    export function neoShift(): void
+    {
+        neo().shift(1);
+    }
+
+    /**
+     * Rotate LEDs forward.
+     */
+    //% blockId="robobit_rotate" block="rotate pixels"
+    //% weight=65
+    export function neoRotate(): void
+    {
+        neo().rotate(1);
+    }
+
+    /**
+     * Set the brightness of the Led Bar. Note this only applies to future writes to the strip.
+     *
+     * @param brightness a measure of LED brightness in 0-255. eg: 255
+     */
+    //% blockId="robobit_brightness" block="set Led Bar brightness %brightness"
+    //% brightness.min=0 brightness.max=255
+    //% weight=10
+    export function neoBrightness(brightness: number): void
+    {
+        neo().setBrightness(brightness);
     }
 
 }
