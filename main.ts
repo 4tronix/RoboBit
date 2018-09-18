@@ -1,4 +1,19 @@
-﻿
+﻿/**
+  * Enumeration of neopixel colors
+  */
+export enum RBColours {
+    //% block="Red"
+    0xff000,
+    //% block="Green"
+    0x00ff00,
+    //% block="Blue"
+    0x0000ff,
+    //% block="White"
+    0xffffff
+}
+
+
+
 /**
   * Enumeration of motors.
   */
@@ -65,8 +80,10 @@ enum RBPingUnit {
 //% weight=10 color=#e7660b icon="\uf1ba"
 namespace robobit {
 
-    let ledBar: neopixel.Strip;
-    let model: RBModel;
+    let ledBar: neopixel.Strip;	// ledBar is an 8-pixel neopixel strip
+    let ledCount = 8;		// number of LEDs in LedBar
+    let larsson = 0; 		// current position of scanner
+    let model: RBModel;		// model defines pins used
 
     /**
       * Drive robot forward (or backward) at speed.
@@ -252,7 +269,7 @@ namespace robobit {
     {
         if (!ledBar)
         {
-            ledBar = neopixel.create(DigitalPin.P13, 8, NeoPixelMode.RGB);
+            ledBar = neopixel.create(DigitalPin.P13, ledCount, NeoPixelMode.RGB);
             ledBar.setBrightness(40);
         }
         return ledBar;
@@ -376,6 +393,23 @@ namespace robobit {
     export function neoBrightness(brightness: number): void
     {
         neo().setBrightness(brightness);
+    }
+
+    /**
+     * Use centre 6 LEDs as Larsson Scanner. Each call progresses one pixel
+     */
+    //% subcategory=LedBar
+    //% group=LedBar
+    //% blockId="robobit_scan" block="scan centre pixels"
+    //% weight=60
+    export function ledScan(): void
+    {
+        larsson += 1;
+        for (let x=0; x<6; x++)
+        {
+            
+        }
+        neo().rotate(1);
     }
 
 }
