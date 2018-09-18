@@ -73,6 +73,8 @@ namespace robobit {
       *
       * @param speed speed of motor between -1023 and 1023.
       */
+    //% subcategory=Motors
+    //% group=Motors
     //% blockId="robobit_motor_forward" block="drive at speed %speed"
     //% speed.min=-1023 speed.max=1023
     //% weight=110
@@ -86,6 +88,8 @@ namespace robobit {
       * @param speed speed of motor between -1023 and 1023.
       * @param milliseconds duration in milliseconds to drive forward for, then stop.
       */
+    //% subcategory=Motors
+    //% group=Motors
     //% blockId="robobit_motor_forward_milliseconds" block="drive at speed %speed| for milliseconds %milliseconds"
     //% speed.min=-1023 speed.max=1023
     //% weight=131
@@ -101,6 +105,8 @@ namespace robobit {
       * @param direction direction to turn.
       * @param speed speed of motor between 0 and 1023.
       */
+    //% subcategory=Motors
+    //% group=Motors
     //% blockId="robobit_turn" block="turn in direction %direction|speed %speed"
     //% speed.min=0 speed.max=1023
     //% weight=109
@@ -123,6 +129,8 @@ namespace robobit {
       * @param speed speed of motor between 0 and 1023.
       * @param milliseconds duration in milliseconds to turn for, then stop.
       */
+    //% subcategory=Motors
+    //% group=Motors
     //% blockId="robobit_turn_milliseconds" block="turn in direction %direction|speed %speed| for milliseconds %milliseconds"
     //% speed.min=0 speed.max=1023
     //% weight=130
@@ -138,6 +146,8 @@ namespace robobit {
       * @param motor motor to drive.
       * @param speed speed of motor
       */
+    //% subcategory=Motors
+    //% group=Motors
     //% blockId="robobit_motor" block="drive motor %motor|speed %speed"
     //% weight=100
     export function motor(motor: RBMotor, speed: number): void {
@@ -178,6 +188,8 @@ namespace robobit {
       *
       * @param sensor Line sensor to read.
       */
+    //% subcategory=Sensors
+    //% group=Sensors
     //% blockId="robobit_read_line" block="read line sensor %sensor"
     //% weight=90
     export function readLine(sensor: RBLineSensor): number {
@@ -194,6 +206,8 @@ namespace robobit {
     *
     * @param unit desired conversion unit
     */
+    //% subcategory=Sensors
+    //% group=Sensors
     //% blockId="robobit_sonar" block="read sonar as %unit"
     //% weight=7
     export function sonar(unit: RBPingUnit): number {
@@ -225,6 +239,8 @@ namespace robobit {
       *
       * @param degrees Degrees to open Claw.
       */
+    //% subcategory=Sensors
+    //% group=Sensors
     //% blockId="robobit_set_claw" block="Set claw %degrees"
     //% weight=90
     export function setClaw(degrees: number): void
@@ -247,6 +263,8 @@ namespace robobit {
       *
       * @param rgb RGB colour of the pixel
       */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="cubebit_set_color" block="set all pixels to %rgb=neopixel_colors"
     //% weight=80
     export function setColor(rgb: number): void
@@ -260,6 +278,8 @@ namespace robobit {
      * @param ID location of the pixel in the cube from 0
      * @param rgb RGB color of the LED
      */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_set_pixel_color" block="set pixel color at %ID|to %rgb=neopixel_colors"
     //% weight=80
     export function setPixel(ID: number, rgb: number): void
@@ -274,6 +294,8 @@ namespace robobit {
      * @param green Green value of the LED 0:255
      * @param blue Blue value of the LED 0:255
      */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_convertRGB" block="convert from red %red| green %green| blue %bblue"
     //% weight=80
     export function convertRGB(r: number, g: number, b: number): number
@@ -284,6 +306,8 @@ namespace robobit {
     /**
       * Show pixels
       */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_show" block="show Led Bar changes"
     //% weight=76
     export function neoShow(): void
@@ -294,6 +318,8 @@ namespace robobit {
     /**
       * Clear leds.
       */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_clear" block="clear all pixels"
     //% weight=75
     export function neoClear(): void
@@ -304,6 +330,8 @@ namespace robobit {
     /**
       * Shows a rainbow pattern on all pixels
       */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_rainbow" block="set Led Bar rainbow"
     //% weight=70
     export function neoRainbow(): void
@@ -314,6 +342,8 @@ namespace robobit {
     /**
      * Shift LEDs forward and clear with zeros.
      */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_shift" block="shift pixels"
     //% weight=66
     export function neoShift(): void
@@ -324,6 +354,8 @@ namespace robobit {
     /**
      * Rotate LEDs forward.
      */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_rotate" block="rotate pixels"
     //% weight=65
     export function neoRotate(): void
@@ -336,6 +368,8 @@ namespace robobit {
      *
      * @param brightness a measure of LED brightness in 0-255. eg: 255
      */
+    //% subcategory=LedBar
+    //% group=LedBar
     //% blockId="robobit_brightness" block="set Led Bar brightness %brightness"
     //% brightness.min=0 brightness.max=255
     //% weight=10
