@@ -404,12 +404,18 @@ namespace robobit {
     //% weight=60
     export function ledScan(): void
     {
-        larsson += 1;
-        for (let x=0; x<6; x++)
+        larsson = (larsson + 1) % (ledCount - 2);
+        for (let x = 1; x < (ledCount-1); x++)
         {
-            
+            if ((x == (larsson - 2)) || (x == (larsson + 2)))
+                setPixel(x, 0x0f0000);
+            else if ((x == (larrson - 1)) || (x == (larsson + 1)))
+                setPixel(x, 0x1f0000);
+            else if (x == larsson)
+                setPixel(x, 0xff0000);
+            else
+                setPixel(x, 0);
         }
-        neo().rotate(1);
     }
 
 }
