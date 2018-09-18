@@ -1,7 +1,7 @@
 ﻿/**
   * Enumeration of neopixel colors
   */
-export enum RBColours {
+enum RBColours {
     //% block="Red"
     0xff000,
     //% block="Green"
@@ -83,6 +83,7 @@ namespace robobit {
     let ledBar: neopixel.Strip;	// ledBar is an 8-pixel neopixel strip
     let ledCount = 8;		// number of LEDs in LedBar
     let larsson = 0; 		// current position of scanner
+    let scanInc = 1;		// incrememnt/decrement scan position
     let model: RBModel;		// model defines pins used
 
     /**
@@ -400,11 +401,15 @@ namespace robobit {
      */
     //% subcategory=LedBar
     //% group=LedBar
-    //% blockId="robobit_scan" block="scan centre pixels"
+    //% blockId="robobit_ledScan" block="scan centre pixels"
     //% weight=60
     export function ledScan(): void
     {
-        larsson = (larsson + 1) % (ledCount - 2);
+        larsson += scanInc;
+        if (larsson == (ledCount - 2))
+            scanInc = -1;
+        else if (larsson == 1)
+            scanInc = 1;
         for (let x = 1; x < (ledCount-1); x++)
         {
             if ((x == (larsson - 2)) || (x == (larsson + 2)))
