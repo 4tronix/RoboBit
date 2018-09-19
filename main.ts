@@ -66,6 +66,9 @@ namespace robobit {
 
     let ledBar: neopixel.Strip;
     let model: RBModel;
+    let larsson: number;
+    let scandir: number;
+    let ledCount=8;
 
     /**
       * Drive robot forward (or backward) at speed.
@@ -377,4 +380,35 @@ namespace robobit {
         neo().setBrightness(brightness);
     }
 
+    /**
+     * Use centre 6 LEDs as Larsson Scanner. Each call moves the scan by one pixel
+     */
+    //% subcategory=LedBar
+    //% group=LedBar
+    //% blockId="robobit_ledScan" block="scan centre pixels"
+    //% weight=60
+    export function ledScan(): void
+    {
+        if (!larsson)
+        {
+            larsson = 1;
+            scandir = 1;
+        }
+        larsson += scandir;
+        if (larsson >= (ledCount - 2))
+            scandir = -1;
+        else if (larsson <= 1)
+            scandir = 1;
+        for (let x = 1; x < (ledCount-1); x++)
+        {
+            if ((x == (larsson - 2)) || (x == (larsson + 2)))
+                setPixel(x, 0x030000);
+            else if ((x == (larsson - 1)) || (x == (larsson + 1)))
+                setPixel(x, 0x1f0000);
+            else if (x == larsson)
+                setPixel(x, 0xff0000);
+            else
+                setPixel(x, 0);
+        }
+    }
 }
