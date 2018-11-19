@@ -36,13 +36,13 @@ enum RBLineSensor {
   */
 enum RBModel {
     //% block="Mk1"
-    MK1,
+    Mk1,
     //% block="Mk2"
-    MK2, 
-    //% block="Mk2/LedBar"
-    MK2L,
+    Mk2, 
+    //% block="Mk2 with LedBar"
+    Mk2A, 
     //% block="Mk3"
-    MK3
+    Mk3
 }
 
 /**
@@ -65,10 +65,21 @@ enum RBPingUnit {
 namespace robobit {
 
     let ledBar: neopixel.Strip;
-    let model: RBModel;
+    let _model: RBModel;
     let larsson: number;
     let scandir: number;
     let ledCount=8;
+
+    /**
+      * Select Model of Robobit (Determines Pin usage)
+      *
+      * @param model Model of Robobit buggy. Mk1, Mk2, or Mk3
+      */
+    //% blockId="robobit_model" block="select Robobit model %model"
+    //% weight=110
+    export function select_model(model: RBModel): void {
+        _model = model;
+    }
 
     /**
       * Drive robot forward (or backward) at speed.
@@ -80,7 +91,9 @@ namespace robobit {
     //% blockId="robobit_motor_forward" block="drive at speed %speed"
     //% speed.min=-1023 speed.max=1023
     //% weight=110
-    export function drive(speed: number): void {
+    export function drive(speed: number): void
+    {
+        setPWM(speed);
         motor(RBMotor.All, speed);
     }
 
@@ -95,7 +108,8 @@ namespace robobit {
     //% blockId="robobit_motor_forward_milliseconds" block="drive at speed %speed| for milliseconds %milliseconds"
     //% speed.min=-1023 speed.max=1023
     //% weight=131
-    export function driveMilliseconds(speed: number, milliseconds: number): void {
+    export function driveMilliseconds(speed: number, milliseconds: number): void
+    {
         drive(speed);
         basic.pause(milliseconds);
         drive(0);
@@ -195,10 +209,18 @@ namespace robobit {
     //% blockId="robobit_read_line" block="read line sensor %sensor"
     //% weight=90
     export function readLine(sensor: RBLineSensor): number {
-        if (sensor == RBLineSensor.Left) {
-            return pins.digitalReadPin(DigitalPin.P11);
-        } else {
-            return pins.digitalReadPin(DigitalPin.P5);
+        if (sensor == RBLineSensor.Left)
+	{
+	    if (_model == RBModel.Mk3)
+            	return pins.digitalReadPin(DigitalPin.P16);
+	    else
+            	return pins.digitalReadPin(DigitalPin.P11);
+        } else
+	{
+	    if (_model == RBModel.Mk3)
+            	return pins.digitalReadPin(DigitalPin.P14);
+	    else
+            	return pins.digitalReadPin(DigitalPin.P5);
         }
     }
 
@@ -215,19 +237,28 @@ namespace robobit {
     export function sonar(unit: RBPingUnit): number {
         // send pulse
         let trig = DigitalPin.P13;
-        let echo = DigitalPin.P13;
+	if (_model == RBModel.Mk3)
+	    trig = DigitalPin.P15;
+	if (_model == RBModel.Mk2A)
+	    trig = DigitalPin.P15;
+        let echo = trig;
 
         let maxCmDistance = 500;
-
+        let d=10;
         pins.setPull(trig, PinPullMode.PullNone);
-        pins.digitalWritePin(trig, 0);
-        control.waitMicros(2);
-        pins.digitalWritePin(trig, 1);
-        control.waitMicros(10);
-        pins.digitalWritePin(trig, 0);
+        for (let x=0; x<10; x++)
+        {
+            pins.digitalWritePin(trig, 0);
+            control.waitMicros(2);
+            pins.digitalWritePin(trig, 1);
+            control.waitMicros(10);
+            pins.digitalWritePin(trig, 0);
 
-        // read pulse
-        let d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58);
+            // read pulse
+            d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58);
+            if (d>0)
+                break;
+        }
 
         switch (unit) {
             case RBPingUnit.Centimeters: return d / 58;
@@ -248,6 +279,11 @@ namespace robobit {
     export function setClaw(degrees: number): void
     {
         pins.servoWritePin(AnalogPin.P13, Math.clamp(0, 80, degrees))
+    }
+
+    function setPWM(speed: number): void
+    {
+        pins.analogSetPeriod(AnalogPin.P0, 40000);
     }
 
     function neo(): neopixel.Strip
