@@ -39,7 +39,7 @@ enum RBModel {
     Mk1,
     //% block="Mk2"
     Mk2, 
-    //% block="Mk2 with LedBar"
+    //% block="Mk2/LedBar"
     Mk2A, 
     //% block="Mk3"
     Mk3
