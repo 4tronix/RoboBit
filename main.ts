@@ -68,10 +68,12 @@ namespace robobit {
     let _model: RBModel;
     let larsson: number;
     let scandir: number;
-    let ledCount=8;
+    let ledCount = 8;
+    let leftSpeed = 0;
+    let rightSpeed = 0;
 
     /**
-      * Select Model of Robobit (Determines Pin usage)
+      * Select Model of Robobit (Determines Pins used)
       *
       * @param model Model of Robobit buggy. Mk1, Mk2, or Mk3
       */
@@ -93,7 +95,6 @@ namespace robobit {
     //% weight=110
     export function drive(speed: number): void
     {
-        setPWM(speed);
         motor(RBMotor.All, speed);
     }
 
@@ -166,8 +167,15 @@ namespace robobit {
     //% group=Motors
     //% blockId="robobit_motor" block="drive motor %motor|speed %speed"
     //% weight=100
-    export function motor(motor: RBMotor, speed: number): void {
+    export function motor(motor: RBMotor, speed: number): void
+    {
         let forward = (speed >= 0);
+        let absSpeed = Math.abs(speed);
+        if ((motor == RBMotor.Left) || (motor == RBMotor.All))
+            leftSpeed = absSpeed;
+        if ((motor == RBMotor.Right) || (motor == RBMotor.All))
+            rightSpeed = absSpeed;
+        setPWM();
 
         if (speed > 1023) {
             speed = 1023;
@@ -281,9 +289,14 @@ namespace robobit {
         pins.servoWritePin(AnalogPin.P13, Math.clamp(0, 80, degrees))
     }
 
-    function setPWM(speed: number): void
+    function setPWM(): void
     {
-        pins.analogSetPeriod(AnalogPin.P0, 40000);
+        if ((leftSpeed < 400) || (rightSpeed < 400))
+            pins.analogSetPeriod(AnalogPin.P0, 60000);
+        else if ((leftSpeed < 600) || (rightSpeed < 600))
+            pins.analogSetPeriod(AnalogPin.P0, 40000);
+        else
+            pins.analogSetPeriod(AnalogPin.P0, 30000);
     }
 
     function neo(): neopixel.Strip
