@@ -15,7 +15,7 @@ robobit.select_model(RBModel.Mk2);
 ```   
 
 ## Driving the robot    
-The simplest way to drive robot is by using the `driveMilliseconds(...)` and `driveTurnMilliseconds(...)` blocks.   
+The simplest way to drive the robot is by using the `driveMilliseconds(...)` and `driveTurnMilliseconds(...)` blocks.   
 Note with `driveMilliseconds(...)`, you can specify a negative speed to reverse.   
 ```blocks
 // Drive forward for 2000 ms
@@ -24,10 +24,10 @@ robobit.driveMilliseconds(1023, 2000)
 // Drive backwards for 2000 ms
 robobit.driveMilliseconds(-1023, 2000)
 
-// Turn left for 200 ms
+// Spin left for 200 ms
 robobit.driveTurnMilliseconds(BBRobotDirection.Left, 1023, 200)
 
-// Turn right for 200 ms
+// Spin right for 200 ms
 robobit.driveTurnMilliseconds(BBRobotDirection.Right, 1023, 200)
 ```   
 
@@ -127,9 +127,10 @@ robobit.neoShow();
 robobit.neoBrightness(100);
 robobit.neoShow();
 
-// Use scanner update regularly in forever loop
-robobit.ledScan();
-robobit.neoShow();
+// Start the scanner to run in the background at the speed and colour you choose
+robobit.startScanner(robobit.RBColours(RBColors.Red), 100);
+// and stop it with
+robobit.stopScanner();
 
 // Define your own colours using convertRGB(red, green, blue)
 robobit.setColor(robobit.convertRGB(40, 50, 200));
