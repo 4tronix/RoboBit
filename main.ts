@@ -54,12 +54,12 @@ enum RBModel
  */
 enum RBPingUnit
 {
-    //% block="μs"
-    MicroSeconds,
     //% block="cm"
     Centimeters,
     //% block="inches"
-    Inches
+    Inches,
+    //% block="μs"
+    MicroSeconds
 }
 
 /**
