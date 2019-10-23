@@ -309,8 +309,8 @@ namespace robobit
         }
         switch (unit)
         {
-            case RBPingUnit.Centimeters: return d / 58;
-            case RBPingUnit.Inches: return d / 148;
+            case RBPingUnit.Centimeters: Math.round(return d / 58);
+            case RBPingUnit.Inches: Math.round(return d / 148);
             default: return d;
         }
     }
