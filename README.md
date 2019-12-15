@@ -1,16 +1,16 @@
-# Robobit
+# RoboBit
  Package for Microsoft Makecode
 
 This library provides a Microsoft Makecode package for the Robobit Buggy, see
 https://4tronix.co.uk/robobit/
 
 ## Selecting the Product Version
-The Robobit Buggy has evolved through Mk1, Mk2 and now Mk3. These use slightly different pins for the options sensors.
-Additionally using the LedBar with Mk2 forces the Ultrasonic to change pins (not available with LedBar at time of writing)
-So it is important to set the model of  Robobit at the start of the program:
+The RoboBit Buggy has evolved through Mk1, Mk2 and now Mk3. These use slightly different pins for the options sensors.
+Additionally using the LedBar with Mk2 forces the Ultrasonic to change pins
+So it is important to set the model of  RoboBit at the start of the program:
 
 ```blocks
-// Select Mk2 Robobit
+// Select Mk2 RoboBit
 robobit.select_model(RBModel.Mk2);
 ```   
 
