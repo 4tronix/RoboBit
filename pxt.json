@@ -1,11 +1,11 @@
 {
     "name": "RoboBit",
-    "version": "1.3.0",
+    "version": "1.3.1",
     "description": "Microsoft MakeCode package for 4tronix RoboBit Buggy",
     "license": "MIT",
     "dependencies": {
         "core": "*",
-        "fireled": "github:4tronix/FireLedsBase",
+        "fireled": "github:4tronix/FireLedsBase#1.2.0",
         "firescreen": "github:4tronix/FireScreen#0.0.5"
     },
     "files": [
