@@ -1,7 +1,6 @@
 # MakeCode Package for 4tronix Robobit Buggy Robot
 
-This library provides a Microsoft Makecode package for 4tronix Robobit Buggy all versions, see
-https://4tronix.co.uk/robobit/
+This library provides a Microsoft Makecode package for [4tronix Robobit Buggy all versions](https://4tronix.co.uk/robobit)
 
 ## Selecting the Robobit Version
 The RoboBit Buggy has evolved through Mk1, Mk2 and now Mk3. These use slightly different pins for the options sensors.
@@ -10,7 +9,7 @@ So it is important to set the model of  RoboBit at the start of the program:
 
 Select Mk3 RoboBit:
 
-```sig
+```block
 robobit.select_model(RBModel.Mk3);
 ```   
 
@@ -21,26 +20,26 @@ Both motors will be driven at the selected speed and direction.
 
 Move forward at speed 60 forever:
 
-```sig
+```block
 robobit.go(RBDirection.Forward, 60)
 ```
 
 Move backward at speed 100 for 2000 ms:
 
-```sig
+```block
 robobit.goms(RBDirection.Reverse, 100, 2000)
 ```
 
 You can also spin/rotate the robot with the `rotate(...)` or `rotatems(...)` blocks
 Rotate left at speed 70:
 
-```sig
+```block
 robobit.rotate(RBRobotDirection.Left, 70)
 ```
 
 Rotate right at speed 50 for 400ms:
 
-```sig
+```block
 robobit.rotatems(RBRobotDirection.Right, 50, 400)
 ```   
 
@@ -50,13 +49,13 @@ This helps when aiming for more accurate manoeuvres. Use the `stop(...)` command
 
 Slowly coast to a stop:
 
-```sig
+```block
 robobit.stop(RBStopMode.Coast)
 ```
 
 Rapidly brake:
 
-```sig
+```block
 robobit.stop(RBStopMode.Brake)
 ```
 
@@ -68,13 +67,13 @@ If the left motor turns slower than the right motor, the robot will turn to the 
 
 
 Drive both motors forward at speed 60. Equivalent to robobit.go(RBDirection.Forward, 60)
-```sig
+```block
 robobit.move(RBMotor.Both, RBDirection.Forward, 60)
 ```
 
 Drive left motor in reverse at speed 30:
 
-```sig
+```block
 robobit.move(RBMotor.Left, RBDirection.Reverse, 30)
 ```
 
@@ -100,13 +99,13 @@ Note that the bias setting does not affect the old style motor blocks.
 
 eg. robot leaves straight line to the right by about 10cm over 2m, so bias it to the left by 5%:
 
-```sig
+```block
 robobit.RBBias(RBRobotDirection.Left, 5)
 ```
 
 eg. robot leaves straight line to left by 25cm, so bias it to the right by 15%:
 
-```sig
+```block
 robobit.RBBias(RBRobotDirection.Right, 15)
 ```
 
@@ -129,10 +128,10 @@ also use the `robobit.sonar(..)` function to read the distance to obstacles.
 
 Read sonar values:
 
-```sig
-let v1 = robobit.sonar(RBPingUnit.MicroSeconds);
-let v2 = robobit.sonar(RBPingUnit.Centimeters);
-let v3 = robobit.sonar(RBPingUnit.Inches);
+```blocks
+robobit.sonar(RBPingUnit.MicroSeconds);
+robobit.sonar(RBPingUnit.Centimeters);
+robobit.sonar(RBPingUnit.Inches);
 ```
 
 ## FireLed Functions
@@ -143,42 +142,40 @@ However, it can slow down some effects so there is a block provided to switch th
 Manual or Automatic:
 
 Set all FireLeds to Green (hard-coded RGB color):
-```sig
-robobit.setLedColor(0x00FF00)
-```
-
 Set all FireLeds to Green (built-in colour selection):
-```sig
+
+```blocks
+robobit.setLedColor(0x00FF00)
 robobit.setLedColor(RBColors.Green)
 ```
 
 Clear all leds:
 
-```sig
+```block
 robobit.ledClear()
 ```
 
 Set the FireLed at position 0 to 7 to selected colour. eg. set Fireled 3 to Red:
 
-```sig
+```block
 robobit.setPixelColor(3, 0xff0000)
 ```
 
 Set all the FireLeds to Rainbow (uses the colour wheel from Red to Purple):
 
-```sig
+```block
 robobit.ledRainbow()
 ```
 
 Shift FireLeds up one place, blanking the first FireLed:
 
-```sig
+```block
 robobit.ledShift()
 ```
 
 Rotate FireLeds by shifting up one and replace the first with the last:
 
-```sig
+```block
 robobit.ledRotate()
 ```
 
@@ -198,13 +195,13 @@ Select colour from separate Red, Green and Blue values
 Each of the Red, Green and Blue values can range from 0 to 255.
 This example produces a pale blue colour:
 
-```sig
+```block
 robobit.convertRGB(50, 100, 200)
 ```
 
 Set brightness of FireLeds to 100:
 
-```sig
+```block
 robobit.ledBrightness(100)
 ```
 
@@ -214,13 +211,13 @@ This moves a group of LEDs in the selected colour backwards and forwards across 
 
 Start the scanner to run in the background at the speed and colour you choose. Here we select the Red and 100ms scanning rate:
 
-```sig
+```block
 robobit.startScanner(0xff0000, 100)
 ```
 
 And stop it with:
 
-```sig
+```block
 robobit.stopScanner();
 ```
 
