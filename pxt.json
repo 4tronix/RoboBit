@@ -1,6 +1,6 @@
 {
     "name": "RoboBit",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "description": "Microsoft MakeCode package for 4tronix RoboBit Buggy",
     "license": "MIT",
     "dependencies": {

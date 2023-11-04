@@ -129,9 +129,9 @@ also use the `robobit.sonar(..)` function to read the distance to obstacles.
 Read sonar values:
 
 ```blocks
-robobit.sonar(RBPingUnit.MicroSeconds);
-robobit.sonar(RBPingUnit.Centimeters);
-robobit.sonar(RBPingUnit.Inches);
+let Distance_us = robobit.sonar(RBPingUnit.MicroSeconds)
+let Distance_cm = robobit.sonar(RBPingUnit.Centimeters)
+let Distance_inch = robobit.sonar(RBPingUnit.Inches)
 ```
 
 ## FireLed Functions
@@ -141,8 +141,7 @@ By default, the FireLeds are automatically updated after every setting. This mak
 However, it can slow down some effects so there is a block provided to switch the update mode to
 Manual or Automatic:
 
-Set all FireLeds to Green (hard-coded RGB color):
-Set all FireLeds to Green (built-in colour selection):
+Set all FireLeds to Green (hard-coded RGB color or built-in colour selection - look at Javascript to see the difference):
 
 ```blocks
 robobit.setLedColor(0x00FF00)
@@ -209,13 +208,13 @@ robobit.ledBrightness(100)
 The Robobit can automatically drive a Larsson scanner on the middle 6 FireLeds.
 This moves a group of LEDs in the selected colour backwards and forwards across the LedBar.
 
-Start the scanner to run in the background at the speed and colour you choose. Here we select the Red and 100ms scanning rate:
+Start the scanner with the `startScanner(...)` function to run in the background at the speed and colour you choose. Here we select the Red and 100ms scanning rate:
 
 ```block
 robobit.startScanner(0xff0000, 100)
 ```
 
-And stop it with:
+And stop it with the `stopScanner(...)` function:
 
 ```block
 robobit.stopScanner();
