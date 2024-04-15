@@ -968,7 +968,7 @@ namespace robobit
         let d=10
         pins.setPull(trig, PinPullMode.PullNone)
         for (let x=0; x<10; x++)
-        z
+        {
             pins.digitalWritePin(trig, 0)
             control.waitMicros(2);
             pins.digitalWritePin(trig, 1)
