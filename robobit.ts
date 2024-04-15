@@ -196,51 +196,137 @@ enum RBColors
 }
 
 /**
+  * IR Key code translations
+  */
+enum RBirKeys
+{
+    //% block="any"
+    Any=0,
+    //% block="1"
+    One=162,
+    //% block="2"
+    Two=98,
+    //% block="3"
+    Three=226,
+    //% block="4"
+    Four=34,
+    //% block="5"
+    Five=2,
+    //% block="6"
+    Six=194,
+    //% block="save"
+    Save=224,
+    //% block="■"
+    Stop=168,
+    //% block="load"
+    Load=144,
+    //% block="X"
+    Cross=104,
+    //% block="║"
+    Pause=152,
+    //% block="/"
+    Tick=176,
+    //% block="↑"
+    Up=24,
+    //% block="↓"
+    Down=74,
+    //% block="←"
+    Left=16,
+    //% block="→"
+    Right=90,
+    //% block="►"
+    Go=56
+}
+
+/**
+  * IR Key code translations without the Any code
+  */
+enum RBirNoAny
+{
+    //% block="1"
+    One=162,
+    //% block="2"
+    Two=98,
+    //% block="3"
+    Three=226,
+    //% block="4"
+    Four=34,
+    //% block="5"
+    Five=2,
+    //% block="6"
+    Six=194,
+    //% block="save"
+    Save=224,
+    //% block="■"
+    Stop=168,
+    //% block="load"
+    Load=144,
+    //% block="X"
+    Cross=104,
+    //% block="║"
+    Pause=152,
+    //% block="/"
+    Tick=176,
+    //% block="↑"
+    Up=24,
+    //% block="↓"
+    Down=74,
+    //% block="←"
+    Left=16,
+    //% block="→"
+    Right=90,
+    //% block="►"
+    Go=56
+}
+
+
+/**
  * Custom blocks
  */
 //% weight=50 color=#e7660b icon="\uf1ba"
 //% groups='["New style blocks","Basic","Advanced","Special","Ultrasonic","Line Sensor","5x5 Matrix","BitFace","OLED 128x64","Old style blocks"]'
 namespace robobit
 {
-    let ledBar: fireled.Band;
-    let _updateMode = RBMode.Auto;
-    let btDisabled = true;
-    let matrix5: fireled.Band;
-    let bitface: fireled.Band;
-    let mouthSmile: number[] = [0,1,2,3,4,5];
-    let mouthGrin: number[] = [0,1,2,3,4,5,10,11,12,13];
-    let mouthSad: number[] = [0,5,6,7,8,9];
-    let mouthFrown: number[] = [0,5,6,7,8,9,10,11,12,13];
-    let mouthStraight: number[] = [0,5,10,11,12,13];
-    let mouthOooh: number[] = [1,2,3,4,6,7,8,9,10,13];
-    let mouthEeeh: number[] = [0,1,2,3,4,5,6,7,8,9];
-    let oled: firescreen.Screen;
-    let leftBias = 0;
-    let rightBias = 0;
+    let ledBar: fireled.Band
+    let _updateMode = RBMode.Auto
+    let btDisabled = true
+    let matrix5: fireled.Band
+    let bitface: fireled.Band
+    let mouthSmile: number[] = [0,1,2,3,4,5]
+    let mouthGrin: number[] = [0,1,2,3,4,5,10,11,12,13]
+    let mouthSad: number[] = [0,5,6,7,8,9]
+    let mouthFrown: number[] = [0,5,6,7,8,9,10,11,12,13]
+    let mouthStraight: number[] = [0,5,10,11,12,13]
+    let mouthOooh: number[] = [1,2,3,4,6,7,8,9,10,13]
+    let mouthEeeh: number[] = [0,1,2,3,4,5,6,7,8,9]
+    let oled: firescreen.Screen
+    let leftBias = 0
+    let rightBias = 0
 
-    let lMotorD0 = DigitalPin.P0;
-    let lMotorD1 = DigitalPin.P8;
-    let lMotorA0 = AnalogPin.P0;
-    let lMotorA1 = AnalogPin.P8;
-    let rMotorD0 = DigitalPin.P1;
-    let rMotorD1 = DigitalPin.P12;
-    let rMotorA0 = AnalogPin.P1;
-    let rMotorA1 = AnalogPin.P12;
+    let lMotorD0 = DigitalPin.P0
+    let lMotorD1 = DigitalPin.P8
+    let lMotorA0 = AnalogPin.P0
+    let lMotorA1 = AnalogPin.P8
+    let rMotorD0 = DigitalPin.P1
+    let rMotorD1 = DigitalPin.P12
+    let rMotorA0 = AnalogPin.P1
+    let rMotorA1 = AnalogPin.P12
 
-    let _model: RBModel;
-    let larsson: number;
-    let scandir: number;
-    let ledCount = 8;
-    let leftSpeed = 0;
-    let rightSpeed = 0;
-    let _scanning = false;
-    let scanColor1 = 0xff0000;
-    let scanColor2 = 0x0f0000;
-    let scanColor3 = 0x030000;
+    let _model: RBModel
+    let larsson: number
+    let scandir: number
+    let ledCount = 8
+    let leftSpeed = 0
+    let rightSpeed = 0
+    let _scanning = false
+    let scanColor1 = 0xff0000
+    let scanColor2 = 0x0f0000
+    let scanColor3 = 0x030000
+    const irEvent = 1995
 
     function clamp(value: number, min: number, max: number): number
     {
-        return Math.max(Math.min(max, value), min);
+        return Math.max(Math.min(max, value), min)
     }
 
 // Block for selecting Robobit Model
@@ -252,7 +338,7 @@ namespace robobit
     //% weight=100
     export function select_model(model: RBModel): void
     {
-        _model = model;
+        _model = model
     }
 
 // Block to enable Bluetooth and disable FireLeds.
@@ -266,9 +352,9 @@ namespace robobit
     export function rbEnableBluetooth(enable: RBBluetooth)
     {
         if (enable == RBBluetooth.btEnable)
-            btDisabled = false;
+            btDisabled = false
         else
-            btDisabled = true;
+            btDisabled = true
     }
 
 // New Style Motor Blocks
@@ -276,11 +362,11 @@ namespace robobit
     function setPWM(speed: number): void
     {
         if (speed < 200)
-            pins.analogSetPeriod(AnalogPin.P0, 60000);
+            pins.analogSetPeriod(AnalogPin.P0, 60000)
         else if (speed < 300)
-            pins.analogSetPeriod(AnalogPin.P0, 40000);
+            pins.analogSetPeriod(AnalogPin.P0, 40000)
         else
-            pins.analogSetPeriod(AnalogPin.P0, 30000);
+            pins.analogSetPeriod(AnalogPin.P0, 30000)
     }
 
     /**
@@ -296,7 +382,7 @@ namespace robobit
     //% blockGap=8
     export function go(direction: RBDirection, speed: number): void
     {
-        move(RBMotor.Both, direction, speed);
+        move(RBMotor.Both, direction, speed)
     }
 
     /**
@@ -313,9 +399,9 @@ namespace robobit
     //% blockGap=8
     export function goms(direction: RBDirection, speed: number, milliseconds: number): void
     {
-        go(direction, speed);
-        basic.pause(milliseconds);
-        stop(RBStopMode.Coast);
+        go(direction, speed)
+        basic.pause(milliseconds)
+        stop(RBStopMode.Coast)
     }
 
     /**
@@ -333,13 +419,13 @@ namespace robobit
     {
         if (direction == RBRobotDirection.Left)
         {
-            move(RBMotor.Left, RBDirection.Reverse, speed);
-            move(RBMotor.Right, RBDirection.Forward, speed);
+            move(RBMotor.Left, RBDirection.Reverse, speed)
+            move(RBMotor.Right, RBDirection.Forward, speed)
         }
         else if (direction == RBRobotDirection.Right)
         {
-            move(RBMotor.Left, RBDirection.Forward, speed);
-            move(RBMotor.Right, RBDirection.Reverse, speed);
+            move(RBMotor.Left, RBDirection.Forward, speed)
+            move(RBMotor.Right, RBDirection.Reverse, speed)
         }
     }
 
@@ -357,9 +443,9 @@ namespace robobit
     //% blockGap=8
     export function rotatems(direction: RBRobotDirection, speed: number, milliseconds: number): void
     {
-        rotate(direction, speed);
-        basic.pause(milliseconds);
-        stop(RBStopMode.Coast);
+        rotate(direction, speed)
+        basic.pause(milliseconds)
+        stop(RBStopMode.Coast)
     }
 
     /**
@@ -376,10 +462,10 @@ namespace robobit
         let stopMode = 0;
         if (mode == RBStopMode.Brake)
             stopMode = 1;
-        pins.digitalWritePin(lMotorD0, stopMode);
-        pins.digitalWritePin(lMotorD1, stopMode);
-        pins.digitalWritePin(rMotorD0, stopMode);
-        pins.digitalWritePin(rMotorD1, stopMode);
+        pins.digitalWritePin(lMotorD0, stopMode)
+        pins.digitalWritePin(lMotorD1, stopMode)
+        pins.digitalWritePin(rMotorD0, stopMode)
+        pins.digitalWritePin(rMotorD1, stopMode)
     }
 
     /**
@@ -398,32 +484,32 @@ namespace robobit
     {
         speed = clamp(speed, 0, 100) * 10.23;
         setPWM(speed);
-        let lSpeed = Math.round(speed * (100 - leftBias) / 100);
-        let rSpeed = Math.round(speed * (100 - rightBias) / 100);
+        let lSpeed = Math.round(speed * (100 - leftBias) / 100)
+        let rSpeed = Math.round(speed * (100 - rightBias) / 100)
         if ((motor == RBMotor.Left) || (motor == RBMotor.Both))
         {
             if (direction == RBDirection.Forward)
             {
-                pins.analogWritePin(lMotorA0, lSpeed);
-                pins.analogWritePin(lMotorA1, 0);
+                pins.analogWritePin(lMotorA0, lSpeed)
+                pins.analogWritePin(lMotorA1, 0)
             }
             else
             {
-                pins.analogWritePin(lMotorA0, 0);
-                pins.analogWritePin(lMotorA1, lSpeed);
+                pins.analogWritePin(lMotorA0, 0)
+                pins.analogWritePin(lMotorA1, lSpeed)
             }
         }
         if ((motor == RBMotor.Right) || (motor == RBMotor.Both))
         {
             if (direction == RBDirection.Forward)
             {
-                pins.analogWritePin(rMotorA0, rSpeed);
-                pins.analogWritePin(rMotorA1, 0);
+                pins.analogWritePin(rMotorA0, rSpeed)
+                pins.analogWritePin(rMotorA1, 0)
             }
             else
             {
-                pins.analogWritePin(rMotorA0, 0);
-                pins.analogWritePin(rMotorA1, rSpeed);
+                pins.analogWritePin(rMotorA0, 0)
+                pins.analogWritePin(rMotorA1, rSpeed)
             }
         }
     }
@@ -444,13 +530,13 @@ namespace robobit
         bias = clamp(bias, 0, 80);
         if (direction == RBRobotDirection.Left)
         {
-            leftBias = bias;
-            rightBias = 0;
+            leftBias = bias
+            rightBias = 0
         }
         else
         {
-            leftBias = 0;
-            rightBias = bias;
+            leftBias = 0
+            rightBias = bias
         }
     }
 
@@ -467,7 +553,7 @@ namespace robobit
     //% blockGap=8
     export function drive(speed: number): void
     {
-        motor(RBMotor.Both, speed);
+        motor(RBMotor.Both, speed)
     }
 
     /**
@@ -483,9 +569,9 @@ namespace robobit
     //% blockGap=8
     export function driveMilliseconds(speed: number, milliseconds: number): void
     {
-        drive(speed);
-        basic.pause(milliseconds);
-        drive(0);
+        drive(speed)
+        basic.pause(milliseconds)
+        drive(0)
     }
 
     /**
@@ -504,13 +590,13 @@ namespace robobit
         speed = clamp(speed, 0, 1023);
         if (direction == RBRobotDirection.Left)
         {
-            motor(RBMotor.Left, -speed);
-            motor(RBMotor.Right, speed);
+            motor(RBMotor.Left, -speed)
+            motor(RBMotor.Right, speed)
         }
         else if (direction == RBRobotDirection.Right)
         {
-            motor(RBMotor.Left, speed);
-            motor(RBMotor.Right, -speed);
+            motor(RBMotor.Left, speed)
+            motor(RBMotor.Right, -speed)
         }
     }
 
@@ -545,36 +631,36 @@ namespace robobit
     //% blockGap=8
     export function motor(motor: RBMotor, speed: number): void
     {
-        speed = clamp(speed, -1023, 1023);
-        let forward = (speed >= 0);
-        let absSpeed = Math.abs(speed);
+        speed = clamp(speed, -1023, 1023)
+        let forward = (speed >= 0)
+        let absSpeed = Math.abs(speed)
         if ((motor == RBMotor.Left) || (motor == RBMotor.Both))
-            leftSpeed = absSpeed;
+            leftSpeed = absSpeed
         if ((motor == RBMotor.Right) || (motor == RBMotor.Both))
-            rightSpeed = absSpeed;
-        setPWM(absSpeed);
-        let realSpeed = speed;
+            rightSpeed = absSpeed
+        setPWM(absSpeed)
+        let realSpeed = speed
         if (!forward)
         {
             if (realSpeed >= -200)
-                realSpeed = (realSpeed * 19) / 6;
+                realSpeed = (realSpeed * 19) / 6
             else if (realSpeed >= -400)
-                realSpeed = realSpeed * 2;
+                realSpeed = realSpeed * 2
             else if (realSpeed >= -600)
-                realSpeed = (realSpeed * 3) / 2;
+                realSpeed = (realSpeed * 3) / 2
             else if (realSpeed >= -800)
-                realSpeed = (realSpeed * 5) / 4;
+                realSpeed = (realSpeed * 5) / 4
             realSpeed = 1023 + realSpeed; // realSpeed is negative
         }
         if ((motor == RBMotor.Left) || (motor == RBMotor.Both))
         {
-            pins.analogWritePin(AnalogPin.P0, realSpeed);
-            pins.digitalWritePin(DigitalPin.P8, forward ? 0 : 1);
+            pins.analogWritePin(AnalogPin.P0, realSpeed)
+            pins.digitalWritePin(DigitalPin.P8, forward ? 0 : 1)
         }
         if ((motor == RBMotor.Right) || (motor == RBMotor.Both))
         {
-            pins.analogWritePin(AnalogPin.P1, realSpeed);
-            pins.digitalWritePin(DigitalPin.P12, forward ? 0 : 1);
+            pins.analogWritePin(AnalogPin.P1, realSpeed)
+            pins.digitalWritePin(DigitalPin.P12, forward ? 0 : 1)
         }
     }
 
@@ -585,17 +671,17 @@ namespace robobit
     {
         if (!ledBar)
         {
-            ledBar = fireled.newBand(DigitalPin.P13, 8);
-            ledBar.setBrightness(40);
+            ledBar = fireled.newBand(DigitalPin.P13, 8)
+            ledBar.setBrightness(40)
         }
-        return ledBar;
+        return ledBar
     }
 
     // update LedBar if _updateMode set to Auto
     function updateLEDs(): void
     {
         if (_updateMode == RBMode.Auto)
-            ledShow();
+            ledShow()
     }
 
     /**
@@ -609,8 +695,8 @@ namespace robobit
     //% blockGap=8
     export function setLedColor(rgb: number)
     {
-        fire().setBand(rgb);
-        updateLEDs();
+        fire().setBand(rgb)
+        updateLEDs()
     }
 
     /**
@@ -623,8 +709,8 @@ namespace robobit
     //% blockGap=8
     export function ledClear(): void
     {
-        fire().clearBand();
-        updateLEDs();
+        fire().clearBand()
+        updateLEDs()
     }
 
     /**
@@ -640,8 +726,8 @@ namespace robobit
     //% blockGap=8
     export function setPixelColor(ledId: number, rgb: number): void
     {
-        fire().setPixel(ledId, rgb);
-        updateLEDs();
+        fire().setPixel(ledId, rgb)
+        updateLEDs()
     }
 
     /**
@@ -654,7 +740,7 @@ namespace robobit
     //% blockGap=8
     export function ledRainbow(): void
     {
-        fire().setRainbow();
+        fire().setRainbow()
         updateLEDs()
     }
 
@@ -668,7 +754,7 @@ namespace robobit
     //% blockGap=8
     export function ledShift(): void
     {
-        fire().shiftBand();
+        fire().shiftBand()
         updateLEDs()
     }
 
@@ -682,7 +768,7 @@ namespace robobit
     //% blockGap=8
     export function ledRotate(): void
     {
-        fire().rotateBand();
+        fire().rotateBand()
         updateLEDs()
     }
 
@@ -700,8 +786,8 @@ namespace robobit
     //% blockGap=8
     export function ledBrightness(brightness: number): void
     {
-        fire().setBrightness(brightness);
-        updateLEDs();
+        fire().setBrightness(brightness)
+        updateLEDs()
     }
 
     /**
@@ -715,7 +801,7 @@ namespace robobit
     //% blockGap=8
     export function setUpdateMode(updateMode: RBMode): void
     {
-        _updateMode = updateMode;
+        _updateMode = updateMode
     }
 
     /**
@@ -729,7 +815,7 @@ namespace robobit
     export function ledShow(): void
     {
         if (btDisabled)
-            fire().updateBand();
+            fire().updateBand()
     }
 
     /**
@@ -751,7 +837,7 @@ namespace robobit
     //% color.fieldOptions.className='rgbColorPicker'
     export function RBColours(color: number): number
     {
-        return color;
+        return color
     }
 
     /**
@@ -767,7 +853,7 @@ namespace robobit
     //% blockGap=8
     export function convertRGB(r: number, g: number, b: number): number
     {
-        return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
+        return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF)
     }
 
 
@@ -784,19 +870,19 @@ namespace robobit
     //% blockGap=8
     export function startScanner(color: number, delay: number): void
     {
-        scanColor1 = color;
-        scanColor2 = reduce(scanColor1, 8);
-        scanColor3 = reduce(scanColor2, 4);
+        scanColor1 = color
+        scanColor2 = reduce(scanColor1, 8)
+        scanColor3 = reduce(scanColor2, 4)
         if(_scanning == false)
         {
-            _scanning = true;
+            _scanning = true
             control.inBackground(() =>
             {
                 while (_scanning)
                 {                                
-                    ledScan();
-                    ledShow();
-                    basic.pause(delay);
+                    ledScan()
+                    ledShow()
+                    basic.pause(delay)
                 }
             })
         }
@@ -807,10 +893,10 @@ namespace robobit
       */
     function reduce(color: number, reducer: number): number
     {
-        let red = ((color & 0xff0000) / reducer) & 0xff0000;
-        let green = ((color & 0x00ff00) / reducer) & 0x00ff00;
-        let blue = ((color & 0x0000ff) / reducer) & 0x0000ff;
-        return red + green + blue;
+        let red = ((color & 0xff0000) / reducer) & 0xff0000
+        let green = ((color & 0x00ff00) / reducer) & 0x00ff00
+        let blue = ((color & 0x0000ff) / reducer) & 0x0000ff
+        return red + green + blue
     }
 
     /**
@@ -823,7 +909,7 @@ namespace robobit
     //% blockGap=8
     export function stopScanner(): void
     {
-        _scanning = false;
+        _scanning = false
     }
 
     /**
@@ -839,24 +925,24 @@ namespace robobit
     {
         if (!larsson)
         {
-            larsson = 1;
-            scandir = 1;
+            larsson = 1
+            scandir = 1
         }
-        larsson += scandir;
+        larsson += scandir
         if (larsson >= (ledCount - 2))
-            scandir = -1;
+            scandir = -1
         else if (larsson <= 1)
-            scandir = 1;
+            scandir = 1
         for (let x = 1; x < (ledCount-1); x++)
         {
             if ((x == (larsson - 2)) || (x == (larsson + 2)))
-                setPixelColor(x, scanColor3);
+                setPixelColor(x, scanColor3)
             else if ((x == (larsson - 1)) || (x == (larsson + 1)))
-                setPixelColor(x, scanColor2);
+                setPixelColor(x, scanColor2)
             else if (x == larsson)
-                setPixelColor(x, scanColor1);
+                setPixelColor(x, scanColor1)
             else
-                setPixelColor(x, 0);
+                setPixelColor(x, 0)
         }
     }
 
@@ -872,32 +958,32 @@ namespace robobit
     export function sonar(unit: RBPingUnit): number
     {
         // send pulse
-        let trig = DigitalPin.P13;
+        let trig = DigitalPin.P13
 	if (_model == RBModel.Mk3)
-	    trig = DigitalPin.P15;
+	    trig = DigitalPin.P15
 	if (_model == RBModel.Mk2A)
-	    trig = DigitalPin.P15;
-        let echo = trig;
-        let maxCmDistance = 500;
-        let d=10;
-        pins.setPull(trig, PinPullMode.PullNone);
+	    trig = DigitalPin.P15
+        let echo = trig
+        let maxCmDistance = 500
+        let d=10
+        pins.setPull(trig, PinPullMode.PullNone)
         for (let x=0; x<10; x++)
-        {
-            pins.digitalWritePin(trig, 0);
+        z
+            pins.digitalWritePin(trig, 0)
             control.waitMicros(2);
-            pins.digitalWritePin(trig, 1);
+            pins.digitalWritePin(trig, 1)
             control.waitMicros(10);
-            pins.digitalWritePin(trig, 0);
+            pins.digitalWritePin(trig, 0)
             // read pulse
-            d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58);
+            d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58)
             if (d>0)
-                break;
+                break
         }
         switch (unit)
         {
-            case RBPingUnit.Centimeters: return Math.round(d / 58);
-            case RBPingUnit.Inches: return Math.round(d / 148);
-            default: return d;
+            case RBPingUnit.Centimeters: return Math.round(d / 58)
+            case RBPingUnit.Inches: return Math.round(d / 148)
+            default: return d
         }
     }
 
@@ -913,16 +999,16 @@ namespace robobit
         if (sensor == RBLineSensor.Left)
 	{
 	    if (_model == RBModel.Mk3)
-            	return pins.digitalReadPin(DigitalPin.P16);
+            	return pins.digitalReadPin(DigitalPin.P16)
 	    else
-            	return pins.digitalReadPin(DigitalPin.P11);
+            	return pins.digitalReadPin(DigitalPin.P11)
         }
         else
 	{
 	    if (_model == RBModel.Mk3)
-            	return pins.digitalReadPin(DigitalPin.P14);
+            	return pins.digitalReadPin(DigitalPin.P14)
 	    else
-            	return pins.digitalReadPin(DigitalPin.P5);
+            	return pins.digitalReadPin(DigitalPin.P5)
         }
     }
 
@@ -936,11 +1022,67 @@ namespace robobit
     //% subcategory="Inputs & Outputs"
     export function setTalon(degrees: number): void
     {
-        degrees = clamp(degrees, 0, 80);
-        pins.servoWritePin(AnalogPin.P13, degrees);
+        degrees = clamp(degrees, 0, 80)
+        pins.servoWritePin(AnalogPin.P13, degrees)
     }
 
+
 // Addon Boards
+
+// Add-on Infrared Receiver Blocks
+
+    /**
+      * Action on IR message received
+      */
+    //% weight=100
+    //% blockId=onIrEvent
+    //% block="on IR key%key"
+    //% subcategory=Addons
+    //% group=InfraRed
+    export function onIREvent(event: RBirKeys, handler: Action)
+    {
+        irCore.initEvents(DigitalPin.P15)
+        control.onEvent(irEvent, <number>event, handler)
+    }
+
+    /**
+     * Check if IR key pressed
+     */
+    //% weight=90
+    //% blockId=IRKey
+    //% block="IR key%key|was pressed"
+    //% subcategory=Addons
+    //% group=InfraRed
+    export function irKey(key: RBirKeys): boolean
+    {
+	return (irCore.LastCode() == key)
+    }
+
+    /**
+      * Last IR Code received as number
+      */
+    //% weight=80
+    //% blockId=lastIRCode
+    //% block="IR code"
+    //% subcategory=Addons
+    //% group=InfraRed
+    export function lastIRCode(): number
+    {
+	return irCore.LastCode()
+    }
+
+    /**
+      * IR Key Codes as number
+      */
+    //% weight=70
+    //% blockId=IRKeyCode
+    //% block="IR Key%key"
+    //% subcategory=Addons
+    //% group=InfraRed
+    export function irKeyCode(key: RBirNoAny): number
+    {
+	return key
+    }
 
 // 5x5 FireLed Matrix 
 
@@ -949,17 +1091,17 @@ namespace robobit
     {
         if (!matrix5)
         {
-            matrix5 = fireled.newBand(DigitalPin.P15, 25);
-            matrix5.setBrightness(40);
+            matrix5 = fireled.newBand(DigitalPin.P15, 25)
+            matrix5.setBrightness(40)
         }
-        return matrix5;
+        return matrix5
     }
 
     // update Matrix if _updateMode set to Auto
     function matUpdate(): void
     {
         if (_updateMode == RBMode.Auto)
-            matShow();
+            matShow()
     }
 
     /**
@@ -972,8 +1114,8 @@ namespace robobit
     //% blockGap=8
     export function matClear(): void
     {
-        mat5().clearBand();
-        matUpdate();
+        mat5().clearBand()
+        matUpdate()
     }
 
     /**
@@ -987,13 +1129,13 @@ namespace robobit
     //% blockGap=8
     export function setMatrix(rgb: number)
     {
-        rawSetMatrix(rgb);
-        matUpdate();
+        rawSetMatrix(rgb)
+        matUpdate()
     }
 
     function rawSetMatrix(rgb: number)
     {
-        mat5().setBand(rgb);
+        mat5().setBand(rgb)
     }
 
     /**
@@ -1009,10 +1151,10 @@ namespace robobit
     export function setPixel(ledId: number, rgb: number): void
     {
         // need to map to match Microbit: top left is 0, bottom right is 24
-        let x = 4 - ledId % 5;
-        let y = 4 - Math.idiv(ledId, 5);
-        mat5().setPixel(x + y*5, rgb);
-        matUpdate();
+        let x = 4 - ledId % 5
+        let y = 4 - Math.idiv(ledId, 5)
+        mat5().setPixel(x + y*5, rgb)
+        matUpdate()
     }
 
     /**
@@ -1028,13 +1170,13 @@ namespace robobit
     //% blockGap=8
     export function setArrayPixel(x: number, y: number, rgb: number): void
     {
-        rawArrayPixel(x, y, rgb);
-        matUpdate();
+        rawArrayPixel(x, y, rgb)
+        matUpdate()
     }
 
     function rawArrayPixel(x: number, y: number, rgb: number): void
     {
-        mat5().setPixel((4-x) + (4-y)*5, rgb);
+        mat5().setPixel((4-x) + (4-y)*5, rgb)
     }
 
     /**
@@ -1048,8 +1190,8 @@ namespace robobit
     export function matRainbow(): void
     {
         // TODO Fix so it uses top left to bottom right
-        mat5().setRainbow();
-        matUpdate();
+        mat5().setRainbow()
+        matUpdate()
     }
 
     /**
@@ -1076,16 +1218,16 @@ namespace robobit
             for (let y=y1; y <= y2; y++)
             {
                 if (inRange(x, y) && (x==x1 || x==x2 || y==y1 || y==y2 || fill))
-                    rawArrayPixel(x, y, rgb);
+                    rawArrayPixel(x, y, rgb)
             }
         }
-        matUpdate();
+        matUpdate()
     }
 
     /* check x, y is within range */
     function inRange(x: number, y: number): boolean
     {
-        return (x>=0 && x<5 && y>=0 && y<5);
+        return (x>=0 && x<5 && y>=0 && y<5)
     }
 
     /**
@@ -1101,52 +1243,52 @@ namespace robobit
     //% blockGap=8
     export function matShowEyeball(pos: eyePos, rgb: number, size: eyeSize): void
     {
-        rawSetMatrix(rgb);
+        rawSetMatrix(rgb)
         // Clear corners to make a circle-ish
-        rawArrayPixel(0, 0, 0);
-        rawArrayPixel(0, 4, 0);
-        rawArrayPixel(4, 0, 0);
+        rawArrayPixel(0, 0, 0)
+        rawArrayPixel(0, 4, 0)
+        rawArrayPixel(4, 0, 0)
         rawArrayPixel(4, 4, 0);
         // draw pupil
         switch(pos)
         {
             case eyePos.Forward:
-                (size==eyeSize.Small) ? rawArrayPixel(2,2,0) : pupil5(2,2); break;
+                (size==eyeSize.Small) ? rawArrayPixel(2,2,0) : pupil5(2,2); break
             case eyePos.Down:
-                (size==eyeSize.Small) ? rawArrayPixel(2,3,0) : pupil5(2,3); break;
+                (size==eyeSize.Small) ? rawArrayPixel(2,3,0) : pupil5(2,3); break
             case eyePos.Up:
-                (size==eyeSize.Small) ? rawArrayPixel(2,1,0) : pupil5(2,1); break;
+                (size==eyeSize.Small) ? rawArrayPixel(2,1,0) : pupil5(2,1); break
             case eyePos.Left:
-                (size==eyeSize.Small) ? rawArrayPixel(3,2,0) : pupil5(3,2); break;
+                (size==eyeSize.Small) ? rawArrayPixel(3,2,0) : pupil5(3,2); break
             case eyePos.Right:
-                (size==eyeSize.Small) ? rawArrayPixel(1,2,0) : pupil5(1,2); break;
+                (size==eyeSize.Small) ? rawArrayPixel(1,2,0) : pupil5(1,2); break
             case eyePos.DownLeft:
-                (size==eyeSize.Small) ? rawArrayPixel(3,3,0) : pupil4(2,2); break;
+                (size==eyeSize.Small) ? rawArrayPixel(3,3,0) : pupil4(2,2); break
             case eyePos.DownRight:
-                (size==eyeSize.Small) ? rawArrayPixel(1,3,0) : pupil4(1,2); break;
+                (size==eyeSize.Small) ? rawArrayPixel(1,3,0) : pupil4(1,2); break
             case eyePos.UpLeft:
-                (size==eyeSize.Small) ? rawArrayPixel(3,1,0) : pupil4(2,1); break;
+                (size==eyeSize.Small) ? rawArrayPixel(3,1,0) : pupil4(2,1); break
             case eyePos.UpRight:
-                (size==eyeSize.Small) ? rawArrayPixel(1,1,0) : pupil4(1,1); break;
+                (size==eyeSize.Small) ? rawArrayPixel(1,1,0) : pupil4(1,1); break
         }
         matUpdate();
     }
  
      function pupil5(x: number, y: number)
      {
-        rawArrayPixel(x, y, 0);
-        rawArrayPixel(x+1, y, 0);
-        rawArrayPixel(x-1, y, 0);
-        rawArrayPixel(x, y+1, 0);
-        rawArrayPixel(x, y-1, 0);
+        rawArrayPixel(x, y, 0)
+        rawArrayPixel(x+1, y, 0)
+        rawArrayPixel(x-1, y, 0)
+        rawArrayPixel(x, y+1, 0)
+        rawArrayPixel(x, y-1, 0)
     }
 
      function pupil4(x: number, y: number)
      {
-         rawArrayPixel(x, y, 0);
-         rawArrayPixel(x+1, y, 0);
-         rawArrayPixel(x, y+1, 0);
-         rawArrayPixel(x+1, y+1, 0);
+         rawArrayPixel(x, y, 0)
+         rawArrayPixel(x+1, y, 0)
+         rawArrayPixel(x, y+1, 0)
+         rawArrayPixel(x+1, y+1, 0)
      }
 
     /**
@@ -1166,10 +1308,10 @@ namespace robobit
             for (let j=0; j<5; j++)
             {
                 if (myImage.pixel(i, j))
-                    rawArrayPixel(i, j, rgb);
+                    rawArrayPixel(i, j, rgb)
             }
         }
-        matUpdate();
+        matUpdate()
     }
 
 
@@ -1184,7 +1326,7 @@ namespace robobit
     export function matShow(): void
     {
         if (btDisabled)
-            mat5().updateBand();
+            mat5().updateBand()
     }
 
     /**
@@ -1199,8 +1341,8 @@ namespace robobit
     //% blockGap=8
     export function matBrightness(brightness: number): void
     {
-        mat5().setBrightness(brightness);
-        matUpdate();
+        mat5().setBrightness(brightness)
+        matUpdate()
     }
 
 // BitFace Addon
@@ -1209,24 +1351,24 @@ namespace robobit
     {
         if (!bitface)
         {
-            bitface = fireled.newBand(DigitalPin.P15, 17);
-            bitface.setBrightness(40);
+            bitface = fireled.newBand(DigitalPin.P15, 17)
+            bitface.setBrightness(40)
         }
-        return bitface;
+        return bitface
     }
 
     function bitfUpdate(): void
     {
         if (btDisabled)
-            bitf().updateBand();
+            bitf().updateBand()
     }
 
     function drawMouth(myList: number[], rgb: number)
     {
         for (let i=0; i<14; i++)
-            bitf().setPixel(i, 0);
+            bitf().setPixel(i, 0)
         for (let i=0; i<myList.length; i++)
-            bitf().setPixel(myList[i], rgb);
+            bitf().setPixel(myList[i], rgb)
     }
 
     /**
@@ -1241,8 +1383,8 @@ namespace robobit
     //% blockGap=8
     export function setBitface(rgb: number)
     {
-        bitf().setBand(rgb);
-        bitfUpdate();
+        bitf().setBand(rgb)
+        bitfUpdate()
     }
 
     /**
@@ -1259,10 +1401,10 @@ namespace robobit
     export function setBitEye(eye: bfEyes, rgb: number)
     {
         if (eye == bfEyes.Left || eye == bfEyes.Both)
-            bitf().setPixel(15, rgb);
+            bitf().setPixel(15, rgb)
         if (eye == bfEyes.Right || eye == bfEyes.Both)
-            bitf().setPixel(16, rgb);
-        bitfUpdate();
+            bitf().setPixel(16, rgb)
+        bitfUpdate()
     }
 
     /**
@@ -1277,8 +1419,8 @@ namespace robobit
     //% blockGap=8
     export function setBitNose(rgb: number)
     {
-        bitf().setPixel(14, rgb);
-        bitfUpdate();
+        bitf().setPixel(14, rgb)
+        bitfUpdate()
     }
 
     /**
@@ -1296,13 +1438,13 @@ namespace robobit
     {
         switch (mouth)
         {
-            case bfMouth.Smile: drawMouth(mouthSmile, rgb); break;
-            case bfMouth.Grin: drawMouth(mouthGrin, rgb); break;
-            case bfMouth.Sad: drawMouth(mouthSad, rgb); break;
-            case bfMouth.Frown: drawMouth(mouthFrown, rgb); break;
-            case bfMouth.Straight: drawMouth(mouthStraight, rgb); break;
-            case bfMouth.Oooh: drawMouth(mouthOooh, rgb); break;
-            case bfMouth.Eeeh: drawMouth(mouthEeeh, rgb); break;
+            case bfMouth.Smile: drawMouth(mouthSmile, rgb); break
+            case bfMouth.Grin: drawMouth(mouthGrin, rgb); break
+            case bfMouth.Sad: drawMouth(mouthSad, rgb); break
+            case bfMouth.Frown: drawMouth(mouthFrown, rgb); break
+            case bfMouth.Straight: drawMouth(mouthStraight, rgb); break
+            case bfMouth.Oooh: drawMouth(mouthOooh, rgb); break
+            case bfMouth.Eeeh: drawMouth(mouthEeeh, rgb); break
         }
         bitfUpdate();
     }
@@ -1319,8 +1461,8 @@ namespace robobit
     //% blockGap=8
     export function bitBrightness(brightness: number): void
     {
-        bitf().setBrightness(brightness);
-        bitfUpdate();
+        bitf().setBrightness(brightness)
+        bitfUpdate()
     }
 
 // OLED 128x64 Addon
@@ -1330,7 +1472,7 @@ namespace robobit
     {
         if (!oled)
         {
-            oled = firescreen.newScreen(0x3c);
+            oled = firescreen.newScreen(0x3c)
         }
         return oled;
     }
@@ -1352,7 +1494,7 @@ namespace robobit
     //% blockGap=8
     export function oledText(text: string, x: number, y: number, inv: boolean)
     {
-        oScreen().doText(text, x, y, inv);
+        oScreen().doText(text, x, y, inv)
     }
 
     /**
@@ -1372,7 +1514,7 @@ namespace robobit
     //% blockGap=8
     export function oledNumber(num: number, x: number, y: number, inv: boolean)
     {
-        oScreen().doNumber(num, x, y, inv);
+        oScreen().doNumber(num, x, y, inv)
     }
 
     /**
@@ -1386,7 +1528,7 @@ namespace robobit
     //% blockGap=8
     export function oledUpdate()
     {
-        oScreen().updateScreen();
+        oScreen().updateScreen()
     }
 
     /**
@@ -1402,7 +1544,7 @@ namespace robobit
     //% blockGap=8
     export function oledSet(set: boolean)
     {
-        oScreen().setScreen(set);
+        oScreen().setScreen(set)
     }
 
     /**
@@ -1417,7 +1559,7 @@ namespace robobit
     //% blockGap=8
     export function oledInvert(inv: boolean)
     {
-        oScreen().invertOled(inv);
+        oScreen().invertOled(inv)
     }
 
     /**
@@ -1432,7 +1574,7 @@ namespace robobit
     //% blockGap=8
     export function oledZOOM(zoom: boolean)
     {
-        oScreen().zoomOled(zoom);
+        oScreen().zoomOled(zoom)
     }
 
     /**
@@ -1453,7 +1595,7 @@ namespace robobit
     //% blockGap=8
     export function oledPlotPixel(x: number, y: number, doSet: boolean, update: boolean)
     {
-        oScreen().plotPixel(x, y, doSet, update);
+        oScreen().plotPixel(x, y, doSet, update)
     }
 
     /**
@@ -1476,7 +1618,7 @@ namespace robobit
     //% blockGap=8
     export function oledLine(x1: number, y1: number, x2: number, y2: number, doSet: boolean, update: boolean)
     {
-        oScreen().oledLine(x1, y1, x2, y2, doSet, update);
+        oScreen().oledLine(x1, y1, x2, y2, doSet, update)
     }
 
     /**
@@ -1499,7 +1641,7 @@ namespace robobit
     //% blockGap=8
     export function oledRectangle(x1: number, y1: number, x2: number, y2: number, doSet: boolean, update: boolean)
     {
-        oScreen().oledRect(x1, y1, x2, y2, doSet, update);
+        oScreen().oledRect(x1, y1, x2, y2, doSet, update)
     }
 
     /**
@@ -1521,7 +1663,7 @@ namespace robobit
     //% blockGap=8
     export function oledCircle (x: number, y: number, r: number, doSet: boolean, update: boolean)
     {
-        oScreen().oledCircle(x, y, r, doSet, update);
+        oScreen().oledCircle(x, y, r, doSet, update)
     }
 
 }
